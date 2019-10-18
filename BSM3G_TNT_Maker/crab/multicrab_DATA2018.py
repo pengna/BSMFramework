@@ -21,22 +21,22 @@ if __name__ == '__main__':
  ##   Crab configuration
  #####
  datasetnames  = [
-'Legacy18V1_SMuBlockA',
-'Legacy18V1_SMuBlockB',
-'Legacy18V1_SMuBlockC',
-'Legacy18V1_SMuBlockD',
-'Legacy18V1_EleGBlockA',
-'Legacy18V1_EleGBlockB',
-'Legacy18V1_EleGBlockC',
-'Legacy18V1_EleGBlockD',
-'Legacy18V1_DblMuBlockA',
-'Legacy18V1_DblMuBlockB',
-'Legacy18V1_DblMuBlockC',
-'Legacy18V1_DblMuBlockD',
-'Legacy18V1_MuEGBlockA',
-'Legacy18V1_MuEGBlockB',
-'Legacy18V1_MuEGBlockC',
-'Legacy18V1_MuEGBlockD',
+'Legacy18V2_SMuBlockA',
+'Legacy18V2_SMuBlockB',
+'Legacy18V2_SMuBlockC',
+'Legacy18V2_SMuBlockD',
+'Legacy18V2_EleGBlockA',
+'Legacy18V2_EleGBlockB',
+'Legacy18V2_EleGBlockC',
+'Legacy18V2_EleGBlockD',
+'Legacy18V2_DblMuBlockA',
+'Legacy18V2_DblMuBlockB',
+'Legacy18V2_DblMuBlockC',
+'Legacy18V2_DblMuBlockD',
+'Legacy18V2_MuEGBlockA',
+'Legacy18V2_MuEGBlockB',
+'Legacy18V2_MuEGBlockC',
+'Legacy18V2_MuEGBlockD',
                  ]
  datasetinputs = [
  # FIXME which samples to use? 
@@ -46,13 +46,13 @@ if __name__ == '__main__':
  '/SingleMuon/Run2018A-17Sep2018-v2/MINIAOD',
  '/SingleMuon/Run2018B-17Sep2018-v1/MINIAOD',
  '/SingleMuon/Run2018C-17Sep2018-v1/MINIAOD',
- '/SingleMuon/Run2018D-PromptReco-v2/MINIAOD',
+ '/SingleMuon/Run2018D-22Jan2019-v2/MINIAOD',
  #'/SingleMuon/Run2018D-22Jan2019-v2/MINIAOD', # FIXME 
  # SingleElectron dataset : AT LEAST 1 high-energy electron in the event.
  '/EGamma/Run2018A-17Sep2018-v2/MINIAOD',
  '/EGamma/Run2018B-17Sep2018-v1/MINIAOD',
  '/EGamma/Run2018C-17Sep2018-v1/MINIAOD',
- '/EGamma/Run2018D-PromptReco-v2/MINIAOD',
+ '/EGamma/Run2018D-22Jan2019-v2/MINIAOD',
  #'/EGamma/Run2018D-22Jan2019-v2/MINIAOD', # FIXME
  # DoubleMuon dataset : AT LEAST 2 high-energy muon in the event.
  '/DoubleMuon/Run2018A-17Sep2018-v2/MINIAOD',
@@ -139,14 +139,16 @@ JECBlockD = [
 ]
 
 
+# baseDir
+baseDir = "/afs/cern.ch/work/b/binghuan/private/TTHLep_RunII/CMSSW_10_2_16/src/BSMFramework/"
 
 goodRunsLists = [
-'/afs/cern.ch/work/b/binghuan/private/TTHLep_RunII/CMSSW_10_2_16/src/BSMFramework/BSM3G_TNT_Maker/data/JSON/Cert_314472-325175_13TeV_17SeptEarlyReReco2018ABC_PromptEraD_Collisions18_JSON.txt',
+(baseDir+'BSM3G_TNT_Maker/data/JSON/Cert_314472-325175_13TeV_17SeptEarlyReReco2018ABC_PromptEraD_Collisions18_JSON.txt'),
 ]
 
-for d in range(0,len(datasetnames)):
+for d in range(1,len(datasetnames)):
 #for d in range(10,len(datasetnames)):
-#for d in range(0,4):
+#for d in range(0,1):
 #for d in [4,9,14,19,24]:
     print 'multicrab.py: Running datasetname: ', datasetnames[d]
     JECFiles = []
@@ -156,17 +158,17 @@ for d in range(0,len(datasetnames)):
         print 'multicrab.py: Run Block A'
         JECFiles = JECBlockA
         tempJSON = goodRunsLists[0]
-        nameGT = '102X_dataRun2_Sep2018ABC_v12'
+        nameGT = '102X_dataRun2_v12'
     if 'BlockB' in datasetnames[d]:
         print 'multicrab.py: Run Block B'
         JECFiles = JECBlockB
         tempJSON = goodRunsLists[0]
-        nameGT = '102X_dataRun2_Sep2018ABC_v12'
+        nameGT = '102X_dataRun2_v12'
     if 'BlockC' in datasetnames[d]:
         print 'multicrab.py: Run Block C'
         JECFiles = JECBlockC
         tempJSON = goodRunsLists[0]
-        nameGT = '102X_dataRun2_Sep2018ABC_v12'
+        nameGT = '102X_dataRun2_v12'
     if 'BlockD' in datasetnames[d]:
         print 'multicrab.py: Run Block D'
         JECFiles = JECBlockD
@@ -211,8 +213,8 @@ for d in range(0,len(datasetnames)):
     config.section_('JobType')
     config.JobType.pluginName  = 'Analysis'
     # List of parameters to pass to CMSSW parameter-set configuration file:
-    config.JobType.psetName    = '/afs/cern.ch/work/b/binghuan/private/TTHLepRunII/CMSSW_10_2_10/src/BSMFramework/BSM3G_TNT_Maker/python/miniAOD_RD2018.py'
-    config.JobType.inputFiles = ['/afs/cern.ch/work/b/binghuan/private/TTHLepRunII/CMSSW_10_2_10/src/BSMFramework/BSM3G_TNT_Maker/data/QG/QGL_AK4chs_94X.db']
+    config.JobType.psetName    = baseDir+'BSM3G_TNT_Maker/python/miniAOD_RD2018.py'
+    config.JobType.inputFiles = [(baseDir+'BSM3G_TNT_Maker/data/QG/QGL_AK4chs_94X.db')]
     config.JobType.allowUndistributedCMSSW = True
     config.JobType.sendExternalFolder = True
     ofParam = 'ofName=' + datasetnames[d]
@@ -238,10 +240,10 @@ for d in range(0,len(datasetnames)):
     config.section_('Data')
     config.Data.inputDataset   = datasetinputs[d]
     config.Data.inputDBS       = 'global'
-    #config.Data.splitting      = 'LumiBased'
-    #config.Data.unitsPerJob    = 30
-    config.Data.splitting      = 'Automatic'
-    config.Data.unitsPerJob    = 180
+    config.Data.splitting      = 'LumiBased'
+    config.Data.unitsPerJob    = 30
+    #config.Data.splitting      = 'Automatic'
+    #config.Data.unitsPerJob    = 180
     # Golden
     config.Data.lumiMask       = tempJSON
     config.Data.outLFNDirBase = '/store/user/binghuan/'

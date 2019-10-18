@@ -21,41 +21,41 @@ if __name__ == '__main__':
  ##   Crab configuration
  #####
  datasetnames  = [
-'Legacy16V1_SEleBlockB',
-'Legacy16V1_SEleBlockC',
-'Legacy16V1_SEleBlockD',
-'Legacy16V1_SEleBlockE',
-'Legacy16V1_SEleBlockF',
-'Legacy16V1_SEleBlockG',
-'Legacy16V1_SEleBlockH',
-'Legacy16V1_SMuBlockB',
-'Legacy16V1_SMuBlockC',
-'Legacy16V1_SMuBlockD',
-'Legacy16V1_SMuBlockE',
-'Legacy16V1_SMuBlockF',
-'Legacy16V1_SMuBlockG',
-'Legacy16V1_SMuBlockH',
-'Legacy16V1_DblEGBlockB',
-'Legacy16V1_DblEGBlockC',
-'Legacy16V1_DblEGBlockD',
-'Legacy16V1_DblEGBlockE',
-'Legacy16V1_DblEGBlockF',
-'Legacy16V1_DblEGBlockG',
-'Legacy16V1_DblEGBlockH',
-'Legacy16V1_DblMuBlockB',
-'Legacy16V1_DblMuBlockC',
-'Legacy16V1_DblMuBlockD',
-'Legacy16V1_DblMuBlockE',
-'Legacy16V1_DblMuBlockF',
-'Legacy16V1_DblMuBlockG',
-'Legacy16V1_DblMuBlockH',
-'Legacy16V1_MuEGBlockB',
-'Legacy16V1_MuEGBlockC',
-'Legacy16V1_MuEGBlockD',
-'Legacy16V1_MuEGBlockE',
-'Legacy16V1_MuEGBlockF',
-'Legacy16V1_MuEGBlockG',
-'Legacy16V1_MuEGBlockH',
+'Legacy16V2_SEleBlockB',
+'Legacy16V2_SEleBlockC',
+'Legacy16V2_SEleBlockD',
+'Legacy16V2_SEleBlockE',
+'Legacy16V2_SEleBlockF',
+'Legacy16V2_SEleBlockG',
+'Legacy16V2_SEleBlockH',
+'Legacy16V2_SMuBlockB',
+'Legacy16V2_SMuBlockC',
+'Legacy16V2_SMuBlockD',
+'Legacy16V2_SMuBlockE',
+'Legacy16V2_SMuBlockF',
+'Legacy16V2_SMuBlockG',
+'Legacy16V2_SMuBlockH',
+'Legacy16V2_DblEGBlockB',
+'Legacy16V2_DblEGBlockC',
+'Legacy16V2_DblEGBlockD',
+'Legacy16V2_DblEGBlockE',
+'Legacy16V2_DblEGBlockF',
+'Legacy16V2_DblEGBlockG',
+'Legacy16V2_DblEGBlockH',
+'Legacy16V2_DblMuBlockB',
+'Legacy16V2_DblMuBlockC',
+'Legacy16V2_DblMuBlockD',
+'Legacy16V2_DblMuBlockE',
+'Legacy16V2_DblMuBlockF',
+'Legacy16V2_DblMuBlockG',
+'Legacy16V2_DblMuBlockH',
+'Legacy16V2_MuEGBlockB',
+'Legacy16V2_MuEGBlockC',
+'Legacy16V2_MuEGBlockD',
+'Legacy16V2_MuEGBlockE',
+'Legacy16V2_MuEGBlockF',
+'Legacy16V2_MuEGBlockG',
+'Legacy16V2_MuEGBlockH',
                  ]
  datasetinputs = [
  # SingleElectron dataset : AT LEAST 1 high-energy electron in the event.
@@ -94,11 +94,14 @@ if __name__ == '__main__':
  '/MuonEG/Run2016B-17Jul2018_ver2-v1/MINIAOD',
  '/MuonEG/Run2016C-17Jul2018-v1/MINIAOD',
  '/MuonEG/Run2016D-17Jul2018-v1/MINIAOD',
- '/MuonEG/Run2016E-17Jul2018-v1/MINIAOD',
+ '/MuonEG/Run2016E-17Jul2018-v2/MINIAOD',
  '/MuonEG/Run2016F-17Jul2018-v1/MINIAOD',
  '/MuonEG/Run2016G-17Jul2018-v1/MINIAOD',
  '/MuonEG/Run2016H-17Jul2018-v1/MINIAOD',
                 ]
+
+# baseDir
+baseDir = "/afs/cern.ch/work/b/binghuan/private/TTHLep_RunII/CMSSW_10_2_16/src/BSMFramework/"
 
 JECBlockBCD = [
 'BSMFramework/BSM3G_TNT_Maker/data/JEC/DATA/Summer16_07Aug2017BCD_V11_DATA/Summer16_07Aug2017BCD_V11_DATA_L1FastJet_AK4PFchs.txt',
@@ -156,13 +159,10 @@ JECBlockGH = [
 
 
 goodRunsLists = [
-'/afs/cern.ch/work/b/binghuan/private/TTHLepRunII/CMSSW_10_2_14/src/BSMFramework/BSM3G_TNT_Maker/data/JSON/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt',
+(baseDir+'BSM3G_TNT_Maker/data/JSON/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt'),
 ]
 
 for d in range(0,len(datasetnames)):
-#for d in range(10,len(datasetnames)):
-#for d in range(0,10):
-#for d in [4,9,14,19,24]:
     print 'multicrab.py: Running datasetname: ', datasetnames[d]
     JECFiles = []
     tempJSON = ''
@@ -232,8 +232,8 @@ for d in range(0,len(datasetnames)):
     config.section_('JobType')
     config.JobType.pluginName  = 'Analysis'
     # List of parameters to pass to CMSSW parameter-set configuration file:
-    config.JobType.psetName    = '/afs/cern.ch/work/b/binghuan/private/TTHLepRunII/CMSSW_10_2_14/src/BSMFramework/BSM3G_TNT_Maker/python/miniAOD_RD2016.py'
-    config.JobType.inputFiles = ['/afs/cern.ch/work/b/binghuan/private/TTHLepRunII/CMSSW_10_2_14/src/BSMFramework/BSM3G_TNT_Maker/data/QG/QGL_AK4chs_94X.db']
+    config.JobType.psetName    = baseDir+'BSM3G_TNT_Maker/python/miniAOD_RD2016.py'
+    config.JobType.inputFiles = [(baseDir+'BSM3G_TNT_Maker/data/QG/QGL_AK4chs_94X.db')]
     config.JobType.allowUndistributedCMSSW = True
     config.JobType.sendExternalFolder = True
     ofParam = 'ofName=' + datasetnames[d]
@@ -258,10 +258,10 @@ for d in range(0,len(datasetnames)):
     config.section_('Data')
     config.Data.inputDataset   = datasetinputs[d]
     config.Data.inputDBS       = 'global'
-    #config.Data.splitting      = 'LumiBased'
-    #config.Data.unitsPerJob    = 30
-    config.Data.splitting      = 'Automatic'
-    config.Data.unitsPerJob    = 180
+    config.Data.splitting      = 'LumiBased'
+    config.Data.unitsPerJob    = 30
+    #config.Data.splitting      = 'Automatic'
+    #config.Data.unitsPerJob    = 180
     # Golden
     config.Data.lumiMask       = tempJSON
     config.Data.outLFNDirBase = '/store/user/binghuan/'

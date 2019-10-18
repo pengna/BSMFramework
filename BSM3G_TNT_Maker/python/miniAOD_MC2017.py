@@ -47,7 +47,7 @@ process.source = cms.Source("PoolSource",
   ),
   skipEvents = cms.untracked.uint32(0)
 )
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
 ##### JEC
 from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
@@ -165,8 +165,8 @@ process.ecalBadCalibReducedMINIAODFilter = cms.EDFilter(
 ##   Output file
 #####
 process.TFileService = cms.Service("TFileService",
-  fileName = cms.string("OutTree_2017.root")
-  #fileName = cms.string("OutTree.root")
+  #fileName = cms.string("OutTree_2017.root")
+  fileName = cms.string("OutTree.root")
 )
 
 #####
@@ -198,7 +198,7 @@ process.TNT = cms.EDAnalyzer("BSM3G_TNT_Maker",
   filltauinfo           = cms.bool(True),#FF
   filljetinfo           = cms.bool(True), #T
   filltthjetinfo        = cms.bool(False), #F
-  fillBoostedJetinfo    = cms.bool(True),
+  fillBoostedJetinfo    = cms.bool(False),
   fillTopSubJetinfo     = cms.bool(False), #F
   fillTauJetnessinfo    = cms.bool(False),
   fillBJetnessinfo      = cms.bool(False),

@@ -21,31 +21,31 @@ if __name__ == '__main__':
  ##   Crab configuration
  #####
  datasetnames  = [
-'Legacy17V1_SEleBlockB',
-'Legacy17V1_SEleBlockC',
-'Legacy17V1_SEleBlockD',
-'Legacy17V1_SEleBlockE',
-'Legacy17V1_SEleBlockF',
-'Legacy17V1_SMuBlockB',
-'Legacy17V1_SMuBlockC',
-'Legacy17V1_SMuBlockD',
-'Legacy17V1_SMuBlockE',
-'Legacy17V1_SMuBlockF',
-'Legacy17V1_DblEGBlockB',
-'Legacy17V1_DblEGBlockC',
-'Legacy17V1_DblEGBlockD',
-'Legacy17V1_DblEGBlockE',
-'Legacy17V1_DblEGBlockF',
-'Legacy17V1_DblMuBlockB',
-'Legacy17V1_DblMuBlockC',
-'Legacy17V1_DblMuBlockD',
-'Legacy17V1_DblMuBlockE',
-'Legacy17V1_DblMuBlockF',
-'Legacy17V1_MuEGBlockB',
-'Legacy17V1_MuEGBlockC',
-'Legacy17V1_MuEGBlockD',
-'Legacy17V1_MuEGBlockE',
-'Legacy17V1_MuEGBlockF',
+'Legacy17V2_SEleBlockB',
+'Legacy17V2_SEleBlockC',
+'Legacy17V2_SEleBlockD',
+'Legacy17V2_SEleBlockE',
+'Legacy17V2_SEleBlockF',
+'Legacy17V2_SMuBlockB',
+'Legacy17V2_SMuBlockC',
+'Legacy17V2_SMuBlockD',
+'Legacy17V2_SMuBlockE',
+'Legacy17V2_SMuBlockF',
+'Legacy17V2_DblEGBlockB',
+'Legacy17V2_DblEGBlockC',
+'Legacy17V2_DblEGBlockD',
+'Legacy17V2_DblEGBlockE',
+'Legacy17V2_DblEGBlockF',
+'Legacy17V2_DblMuBlockB',
+'Legacy17V2_DblMuBlockC',
+'Legacy17V2_DblMuBlockD',
+'Legacy17V2_DblMuBlockE',
+'Legacy17V2_DblMuBlockF',
+'Legacy17V2_MuEGBlockB',
+'Legacy17V2_MuEGBlockC',
+'Legacy17V2_MuEGBlockD',
+'Legacy17V2_MuEGBlockE',
+'Legacy17V2_MuEGBlockF',
                  ]
  datasetinputs = [
  # SingleElectron dataset : AT LEAST 1 high-energy electron in the event.
@@ -171,9 +171,11 @@ JECBlockF = [
 ]
 
 
+# baseDir
+baseDir = "/afs/cern.ch/work/b/binghuan/private/TTHLep_RunII/CMSSW_10_2_16/src/BSMFramework/"
 
 goodRunsLists = [
-'/afs/cern.ch/work/b/binghuan/private/TTHLepRunII/CMSSW_10_2_14/src/BSMFramework/BSM3G_TNT_Maker/data/JSON/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON_v1.txt',
+(baseDir+'BSM3G_TNT_Maker/data/JSON/Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON_v1.txt'),
 ]
 
 for d in range(0,len(datasetnames)):
@@ -241,8 +243,8 @@ for d in range(0,len(datasetnames)):
     config.section_('JobType')
     config.JobType.pluginName  = 'Analysis'
     # List of parameters to pass to CMSSW parameter-set configuration file:
-    config.JobType.psetName    = '/afs/cern.ch/work/b/binghuan/private/TTHLepRunII/CMSSW_10_2_14/src/BSMFramework/BSM3G_TNT_Maker/python/miniAOD_RD2017.py'
-    config.JobType.inputFiles = ['/afs/cern.ch/work/b/binghuan/private/TTHLepRunII/CMSSW_10_2_14/src/BSMFramework/BSM3G_TNT_Maker/data/QG/QGL_AK4chs_94X.db']
+    config.JobType.psetName    = baseDir+'BSM3G_TNT_Maker/python/miniAOD_RD2017.py'
+    config.JobType.inputFiles = [(baseDir+'BSM3G_TNT_Maker/data/QG/QGL_AK4chs_94X.db')]
     config.JobType.allowUndistributedCMSSW = True
     config.JobType.sendExternalFolder = True
     ofParam = 'ofName=' + datasetnames[d]
@@ -267,10 +269,10 @@ for d in range(0,len(datasetnames)):
     config.section_('Data')
     config.Data.inputDataset   = datasetinputs[d]
     config.Data.inputDBS       = 'global'
-    #config.Data.splitting      = 'LumiBased'
-    #config.Data.unitsPerJob    = 30
-    config.Data.splitting      = 'Automatic'
-    config.Data.unitsPerJob    = 180
+    config.Data.splitting      = 'LumiBased'
+    config.Data.unitsPerJob    = 30
+    #config.Data.splitting      = 'Automatic'
+    #config.Data.unitsPerJob    = 180
     # Golden
     config.Data.lumiMask       = tempJSON
     config.Data.outLFNDirBase = '/store/user/binghuan/'

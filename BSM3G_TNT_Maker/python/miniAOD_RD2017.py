@@ -345,7 +345,7 @@ process.TNT = cms.EDAnalyzer("BSM3G_TNT_Maker",
   filltauinfo           = cms.bool(True),
   filljetinfo           = cms.bool(True),
   filltthjetinfo        = cms.bool(False), #F
-  fillBoostedJetinfo    = cms.bool(True),
+  fillBoostedJetinfo    = cms.bool(False),
   fillTopSubJetinfo     = cms.bool(False), #F
   fillTauJetnessinfo    = cms.bool(False),
   fillBJetnessinfo      = cms.bool(False),
@@ -357,7 +357,7 @@ process.TNT = cms.EDAnalyzer("BSM3G_TNT_Maker",
   # Choose format 
   MiniAODv2 = cms.bool(True),
   is_data   = cms.bool(True),
-  lepfilter   = cms.int32(0), # at least #lepfilter lepton : muon: CutBaseLoose , Electron : pt/eta
+  lepfilter   = cms.int32(2), # at least #lepfilter lepton : muon: CutBaseLoose , Electron : pt/eta
   reHLT     = cms.bool(True),
   debug_    = cms.bool(False),
   super_TNT = cms.bool(False),
