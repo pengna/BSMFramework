@@ -59,9 +59,15 @@ git checkout CMSSW_10_2_16
 cd ..
 scram b -j 8
 
+
 ## To Run ##
 cd BSMFramework/BSM3G_TNT_Maker/python/
 cmsRun miniAOD_MC(RD)2017(2016)(2018).py 
+
+## set up the crab environment and the grid certificate
+## this needs be done every time you start a new terminal
+voms-proxy-init --voms cms
+source /cvmfs/cms.cern.ch/crab3/crab.sh
 
 ## To Submit Crab jobs ###
 cd BSMFramework/BSM3G_TNT_Maker/crab/
@@ -74,11 +80,12 @@ python multicrab_MC(DATA)2016(2017)(2018).py
   https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#What_is_the_Automatic_splitting
   
 
+- Please change the absolute path of baseDir in multicrab_MC(DATA)2016(2017)(2018).py
+- Please set outLFNDirBase to your DIR path at IHEP Tier 2 farm
+  Highly suggest to create an empty DIR as output for the IHEP Tier 2 to Tier 3 Ntuple Handlings
+
 - Always check HLT, make sure
     HLT you want is contained in TriggerSelector
     ifevtriggers in miniADO_RD(MC).py is set to true (false)
 
-- Please change the absolute path of baseDir in multicrab_MC(DATA)2016(2017)(2018).py
-- Please set outLFNDirBase to your DIR path at IHEP Tier 2 farm
-  Highly suggest to create an empty DIR as output for the IHEP Tier 2 to Tier 3 Ntuple Handlings
  
