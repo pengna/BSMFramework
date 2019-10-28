@@ -3,6 +3,7 @@ if __name__ == '__main__':
  ##   Multicrab configuration
  #####
  import sys
+ from multiprocessing import Process
  from CRABClient.UserUtilities import config, getUsernameFromSiteDB
  config = config()
  from CRABAPI.RawCommand import crabCommand
@@ -240,8 +241,8 @@ tWLists = [
 baseDir = "/afs/cern.ch/work/b/binghuan/private/TTHLep_RunII/CMSSW_10_2_16/src/BSMFramework/"
 
 #for d in range(len(datasetnames)):
-#for d in range(0,len(datasetnames)):
-for d in range(69,len(datasetnames)):
+for d in [83]:
+#for d in range(69,len(datasetnames)):
     print 'multicrab.py: Running datasetname: ', datasetnames[d]
 
     
@@ -290,4 +291,10 @@ for d in range(69,len(datasetnames)):
     config.section_('Site')
     config.Site.storageSite    = 'T2_CN_Beijing'#'T2_CH_CERN' # Site to which output is permenantly copied by crab3
     print 'multicrab.py: Submitting Jobs'
-    submit(config)
+    # https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3FAQ#Multiple_submission_fails_with_a
+    # if you see error FATAL ERROR: A different CMSSSW configuration was already cached
+    # use the following multithread
+    # submit(config) 
+    p = Process(target=submit, args=(config,))
+    p.start()
+    p.join()

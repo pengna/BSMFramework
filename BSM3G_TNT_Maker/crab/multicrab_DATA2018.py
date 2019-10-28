@@ -3,6 +3,7 @@ if __name__ == '__main__':
  ##   Multicrab configuration
  #####
  import sys
+ from multiprocessing import Process
  from CRABClient.UserUtilities import config, getUsernameFromSiteDB
  config = config()
  from CRABAPI.RawCommand import crabCommand
@@ -146,10 +147,15 @@ goodRunsLists = [
 (baseDir+'BSM3G_TNT_Maker/data/JSON/Cert_314472-325175_13TeV_17SeptEarlyReReco2018ABC_PromptEraD_Collisions18_JSON.txt'),
 ]
 
-for d in range(1,len(datasetnames)):
+ignores = ["Legacy18V2_SMuBlockC","Legacy18V2_EleGBlockC","Legacy18V2_MuEGBlockC"]
+
+for d in range(0,len(datasetnames)):
 #for d in range(10,len(datasetnames)):
 #for d in range(0,1):
 #for d in [4,9,14,19,24]:
+    if datasetnames[d] in ignores:
+        print 'multicrab.py ignore dataset : ', datasetnames[d]
+        continue
     print 'multicrab.py: Running datasetname: ', datasetnames[d]
     JECFiles = []
     tempJSON = ''
@@ -246,6 +252,7 @@ for d in range(1,len(datasetnames)):
     #config.Data.unitsPerJob    = 180
     # Golden
     config.Data.lumiMask       = tempJSON
+    #config.Data.lumiMask       = datasetnames[d]+"/crab_"+datasetnames[d]+"/results/notFinishedLumis.json"
     config.Data.outLFNDirBase = '/store/user/binghuan/'
     print 'multicrab.py: outLFNDirBase = /store/user/binghuan/'
     #config.Data.publication = True
@@ -253,4 +260,7 @@ for d in range(1,len(datasetnames)):
     config.section_('Site')
     config.Site.storageSite    = 'T2_CN_Beijing'#'T2_CH_CERN'
     print 'multicrab.py: Submitting Jobs'
-    submit(config)
+    #submit(config)
+    p = Process(target=submit, args=(config,))
+    p.start()
+    p.join()

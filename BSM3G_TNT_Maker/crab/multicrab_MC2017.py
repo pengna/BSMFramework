@@ -3,6 +3,7 @@ if __name__ == '__main__':
  ##   Multicrab configuration
  #####
  import sys
+ from multiprocessing import Process
  from CRABClient.UserUtilities import config, getUsernameFromSiteDB
  config = config()
  from CRABAPI.RawCommand import crabCommand
@@ -131,7 +132,7 @@ if __name__ == '__main__':
 'Legacy17V2_ggHHTo2B2Tau_nodeSM',
 'Legacy17V2_ggHHTo2B2Tau_node2',
 'Legacy17V2_ggHHTo2B2Tau_node3',
-'Legacy17V2_ggHHTo2B2Tau_node4'
+'Legacy17V2_ggHHTo2B2Tau_node4',
 'Legacy17V2_ggHHTo2B2Tau_node7',
 'Legacy17V2_ggHHTo2B2Tau_node9',
 'Legacy17V2_ggHHTo2B2Tau_node12',
@@ -337,10 +338,10 @@ tWLists = [
 # baseDir
 baseDir = "/afs/cern.ch/work/b/binghuan/private/TTHLep_RunII/CMSSW_10_2_16/src/BSMFramework/"
 
-for d in range(0,len(datasetnames)):
-#for d in range(0,1):
+#for d in range(129,len(datasetnames)):
+for d in range(129,131):
     print 'multicrab.py: Running datasetname: ', datasetnames[d]
-
+    
     lepFilt = 2
     if datasetnames[d] in tWLists:
         lepFilt = 1
@@ -386,4 +387,7 @@ for d in range(0,len(datasetnames)):
     config.section_('Site')
     config.Site.storageSite    = 'T2_CN_Beijing'#'T2_CH_CERN' # Site to which output is permenantly copied by crab3
     print 'multicrab.py: Submitting Jobs'
-    submit(config)
+    #submit(config)
+    p = Process(target=submit, args=(config,))
+    p.start()
+    p.join()

@@ -3,6 +3,7 @@ if __name__ == '__main__':
  ##   Multicrab configuration
  #####
  import sys
+ from multiprocessing import Process
  from CRABClient.UserUtilities import config, getUsernameFromSiteDB
  config = config()
  from CRABAPI.RawCommand import crabCommand
@@ -282,4 +283,7 @@ for d in range(0,len(datasetnames)):
     config.section_('Site')
     config.Site.storageSite    = 'T2_CN_Beijing'#'T2_CH_CERN'
     print 'multicrab.py: Submitting Jobs'
-    submit(config)
+    #submit(config)
+    p = Process(target=submit, args=(config,))
+    p.start()
+    p.join()
