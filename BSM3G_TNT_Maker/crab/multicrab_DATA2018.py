@@ -147,12 +147,13 @@ goodRunsLists = [
 (baseDir+'BSM3G_TNT_Maker/data/JSON/Cert_314472-325175_13TeV_17SeptEarlyReReco2018ABC_PromptEraD_Collisions18_JSON.txt'),
 ]
 
-ignores = ["Legacy18V2_SMuBlockC","Legacy18V2_EleGBlockC","Legacy18V2_MuEGBlockC"]
+ignores = []
+# ignores = ["Legacy18V2_SMuBlockC","Legacy18V2_EleGBlockC","Legacy18V2_MuEGBlockC"]
 
-for d in range(0,len(datasetnames)):
+#for d in range(0,len(datasetnames)):
 #for d in range(10,len(datasetnames)):
 #for d in range(0,1):
-#for d in [4,9,14,19,24]:
+for d in [4,8]:
     if datasetnames[d] in ignores:
         print 'multicrab.py ignore dataset : ', datasetnames[d]
         continue
@@ -247,12 +248,12 @@ for d in range(0,len(datasetnames)):
     config.Data.inputDataset   = datasetinputs[d]
     config.Data.inputDBS       = 'global'
     config.Data.splitting      = 'LumiBased'
-    config.Data.unitsPerJob    = 30
+    config.Data.unitsPerJob    = 5
     #config.Data.splitting      = 'Automatic'
     #config.Data.unitsPerJob    = 180
     # Golden
     config.Data.lumiMask       = tempJSON
-    #config.Data.lumiMask       = datasetnames[d]+"/crab_"+datasetnames[d]+"/results/notFinishedLumis.json"
+    #config.Data.lumiMask       = "crab_dataInfo/"+datasetnames[d]+"/crab_"+datasetnames[d]+"/results/notFinishedLumis.json"
     config.Data.outLFNDirBase = '/store/user/binghuan/'
     print 'multicrab.py: outLFNDirBase = /store/user/binghuan/'
     #config.Data.publication = True

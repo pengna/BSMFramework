@@ -1,0 +1,16 @@
+crab report -d Legacy18V2_SMuBlockA/crab_Legacy18V2_SMuBlockA
+crab report -d Legacy18V2_SMuBlockB/crab_Legacy18V2_SMuBlockB
+# crab report -d Legacy18V2_SMuBlockC/crab_Legacy18V2_SMuBlockC
+crab report -d Legacy18V2_SMuBlockD/crab_Legacy18V2_SMuBlockD
+crab report -d Legacy18V2_EleGBlockA/crab_Legacy18V2_EleGBlockA
+crab report -d Legacy18V2_EleGBlockB/crab_Legacy18V2_EleGBlockB
+#crab report -d Legacy18V2_EleGBlockC/crab_Legacy18V2_EleGBlockC
+crab report -d Legacy18V2_EleGBlockD/crab_Legacy18V2_EleGBlockD
+crab report -d Legacy18V2_DblMuBlockA/crab_Legacy18V2_DblMuBlockA
+crab report -d Legacy18V2_DblMuBlockB/crab_Legacy18V2_DblMuBlockB
+crab report -d Legacy18V2_DblMuBlockC/crab_Legacy18V2_DblMuBlockC
+crab report -d Legacy18V2_DblMuBlockD/crab_Legacy18V2_DblMuBlockD
+crab report -d Legacy18V2_MuEGBlockA/crab_Legacy18V2_MuEGBlockA
+crab report -d Legacy18V2_MuEGBlockB/crab_Legacy18V2_MuEGBlockB
+#crab report -d Legacy18V2_MuEGBlockC/crab_Legacy18V2_MuEGBlockC
+crab report -d Legacy18V2_MuEGBlockD/crab_Legacy18V2_MuEGBlockD
