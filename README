@@ -75,11 +75,13 @@ python multicrab_MC(DATA)2016(2017)(2018).py
 
 ## Job Recover ######
 #####################
-<crab report -d> to create the notFinishedLumis.json
-Feed this json file to multicrab_MC(DATA).py : 
-set config.Data.lumiMask to this json file
-see multicrab_DATA2018.py for example.
-For convenience, I create a directory crab_dataInfo and move my crab task directory into it.
+1. <crab kill -d> to kill the job and make sure the jobs are in killed status before you move to next step
+2. <crab report -d> to create the notFinishedLumis.json
+3. Feed this json file to multicrab_MC(DATA).py : 
+    set config.Data.lumiMask to this json file
+    see multicrab_DATA2018.py for example.
+    For convenience, I create a directory crab_dataInfo and move my crab task directory into it.
+
 
 
 ## Notice ###
