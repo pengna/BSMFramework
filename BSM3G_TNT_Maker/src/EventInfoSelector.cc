@@ -21,18 +21,20 @@ EventInfoSelector::EventInfoSelector(std::string name, TTree* tree, bool debug, 
   if(debug) std::cout<<"in EventInfoSelector constructor"<<std::endl;
   SetBranches();
   // https://github.com/cms-sw/cmssw/blob/master/PhysicsTools/NanoAOD/python/nano_cff.py#L98-L104
-  read_PDFv1Set = new (LHAPDF::PDFSet)("PDF4LHC15_nnlo_30_pdfas");
-  _systv1PDFs = read_PDFv1Set->mkPDFs();
-  read_PDFv2Set = new (LHAPDF::PDFSet)("NNPDF31_nnlo_hessian_pdfas");
-  _systv2PDFs = read_PDFv2Set->mkPDFs();
-  read_PDFv3Set = new (LHAPDF::PDFSet)("NNPDF30_nlo_as_0118");
-  _systv3PDFs = read_PDFv3Set->mkPDFs();
-  read_PDFv4Set = new (LHAPDF::PDFSet)("NNPDF30_lo_as_0130");
-  _systv4PDFs = read_PDFv4Set->mkPDFs();
-  read_PDFv5Set = new (LHAPDF::PDFSet)("NNPDF30_nlo_nf_4_pdfas");
-  _systv5PDFs = read_PDFv5Set->mkPDFs();
-  read_PDFv6Set = new (LHAPDF::PDFSet)("NNPDF30_nlo_nf_5_pdfas");
-  _systv6PDFs = read_PDFv6Set->mkPDFs();
+  if(!_is_data){
+    read_PDFv1Set = new (LHAPDF::PDFSet)("PDF4LHC15_nnlo_30_pdfas");
+    _systv1PDFs = read_PDFv1Set->mkPDFs();
+    read_PDFv2Set = new (LHAPDF::PDFSet)("NNPDF31_nnlo_hessian_pdfas");
+    _systv2PDFs = read_PDFv2Set->mkPDFs();
+    read_PDFv3Set = new (LHAPDF::PDFSet)("NNPDF30_nlo_as_0118");
+    _systv3PDFs = read_PDFv3Set->mkPDFs();
+    read_PDFv4Set = new (LHAPDF::PDFSet)("NNPDF30_lo_as_0130");
+    _systv4PDFs = read_PDFv4Set->mkPDFs();
+    read_PDFv5Set = new (LHAPDF::PDFSet)("NNPDF30_nlo_nf_4_pdfas");
+    _systv5PDFs = read_PDFv5Set->mkPDFs();
+    read_PDFv6Set = new (LHAPDF::PDFSet)("NNPDF30_nlo_nf_5_pdfas");
+    _systv6PDFs = read_PDFv6Set->mkPDFs();
+  }
 }
 EventInfoSelector::~EventInfoSelector(){
   delete tree_;

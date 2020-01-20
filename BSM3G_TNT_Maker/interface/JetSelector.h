@@ -78,7 +78,7 @@ class JetSelector : public  baseTree{
   void JECInitialization();
   void Clear();
   void GetJER(pat::Jet jet, float JesSF, float rhoJER, bool AK4PFchs, float &JERScaleFactor, float &JERScaleFactorUP, float &JERScaleFactorDOWN);
-  void Getjer(pat::Jet jet, float JesSF, float rhoJER, bool AK4PFchs, float &JERScaleFactor, float &JERScaleFactorUP, float &JERScaleFactorDOWN);
+  void Getjer(pat::Jet jet, float JesSF, float rhoJER, bool AK4PFchs, float &JERScaleFactor, float &JERScaleFactorUP, float &JERScaleFactorDOWN, int nEvent);
   void computeQG(const pat::Jet& jet, double& ptD_, double& mult_, double& axis1_, double& axis2_, bool useQualityCut );
  private:
   JetSelector(){};

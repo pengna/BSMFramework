@@ -51,6 +51,15 @@ void BoostedJetSelector::Fill(const edm::Event& iEvent){
   //iEvent.getByToken(rhoJERHandle_,rhoJERHandle);
   //double rhoJER = *rhoJERHandle;
   
+  // random seed for stochastic method
+  std::uint32_t m_nomVar = 1;
+  unsigned int runNum_uint = static_cast<unsigned int>(iEvent.id().run());
+  unsigned int lumiNum_uint = static_cast<unsigned int>(iEvent.id().luminosityBlock());
+  unsigned int evNum_uint = static_cast<unsigned int>(iEvent.id().event());
+  unsigned int jet0eta = uint32_t((*fatjets).empty() ? 0 : (*fatjets)[0].eta() / 0.01);
+  std::uint32_t seed = m_nomVar + jet0eta + (lumiNum_uint << 10) + (runNum_uint << 20) + evNum_uint;
+  m_random_generator.seed(seed);
+  
   /////
   //   Get fatjet information
   /////  
@@ -316,9 +325,6 @@ void BoostedJetSelector::Clear(){
 }
 
 void BoostedJetSelector::Getjer(pat::Jet jet, float JesSF, float rhoJER, bool AK8PFchs, float &JERScaleFactor, float &JERScaleFactorUP, float &JERScaleFactorDOWN){
-  // random seed for stochastic method
-  std::uint32_t seed = 1234;
-  m_random_generator = std::mt19937(seed);
   double cFactorJER = 1.0; 
   double cFactorJERdown = 1.0;
   double cFactorJERup = 1.0;
@@ -360,7 +366,7 @@ void BoostedJetSelector::Getjer(pat::Jet jet, float JesSF, float rhoJER, bool AK
   }else{
     // stochastic method
     // https://github.com/cms-sw/cmssw/blob/CMSSW_8_0_25/PhysicsTools/PatUtils/interface/SmearedJetProducerT.h#L239-L247
-    if(cFactorJERup>1){
+    if(cFactorJER>1){
         double sigma = relpterr * std::sqrt(cFactorJER*cFactorJER-1);
         std::normal_distribution<> d(0, sigma);
         JERScaleFactor = (std::max(0., 1. + d(m_random_generator)));

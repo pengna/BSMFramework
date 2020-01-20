@@ -92,6 +92,16 @@ void JetSelector::Fill(const edm::Event& iEvent){
   //bool ajet = false;
   ////slimmedJets
   int ij = 0;
+  int nEvent = iEvent.id().event();
+  // random seed for stochastic method
+  std::uint32_t m_nomVar = 1;
+  unsigned int runNum_uint = static_cast<unsigned int>(iEvent.id().run());
+  unsigned int lumiNum_uint = static_cast<unsigned int>(iEvent.id().luminosityBlock());
+  unsigned int evNum_uint = static_cast<unsigned int>(iEvent.id().event());
+  unsigned int jet0eta = uint32_t((*jets).empty() ? 0 : (*jets)[0].eta() / 0.01);
+  std::uint32_t seed = m_nomVar + jet0eta + (lumiNum_uint << 10) + (runNum_uint << 20) + evNum_uint;
+  m_random_generator.seed(seed);
+ 
   for(const pat::Jet &j : *jets){ 
     //Acceptance
     if(j.pt()<_Jet_pt_min){ij++; continue;}
@@ -369,6 +379,8 @@ void JetSelector::Fill(const edm::Event& iEvent){
       jecAK4PFchsMCUnc_->setJetEta( uncorrJetAK4PFchs.eta() );
       jecAK4PFchsMCUnc_->setJetPt( corrAK4PFchs * uncorrJetAK4PFchs.pt() );
       corrDownAK4PFchs = corrAK4PFchs * ( 1 - fabs(jecAK4PFchsMCUnc_->getUncertainty(-1)) );
+      //std::cout << " uncorr jet pt : " << uncorrJetAK4PFchs.pt() << " uncorr jet eta : "<< uncorrJetAK4PFchs.eta() << " jet pt " << j.pt() << " jet eta " << j.eta()<<std::endl;
+      
             //================================================Factorised JES Unc.===================================================
       jecAK4PFchsMCUnc_AbsoluteStat->setJetEta( uncorrJetAK4PFchs.eta() );
       jecAK4PFchsMCUnc_AbsoluteStat->setJetPt( corrAK4PFchs * uncorrJetAK4PFchs.pt() );
@@ -824,7 +836,7 @@ void JetSelector::Fill(const edm::Event& iEvent){
     float JERScaleFactorUP   = 1;
     float JERScaleFactorDOWN = 1;
     //if(!_is_data) GetJER(j, corrAK4PFchs, rho, true, JERScaleFactor, JERScaleFactorUP, JERScaleFactorDOWN);
-    if(!_is_data) Getjer(j, corrAK4PFchs, rho, true, JERScaleFactor, JERScaleFactorUP, JERScaleFactorDOWN);
+    if(!_is_data) Getjer(j, corrAK4PFchs, rho, true, JERScaleFactor, JERScaleFactorUP, JERScaleFactorDOWN, nEvent);
     Jet_JerSF.push_back(JERScaleFactor);
     Jet_JerSFup.push_back(JERScaleFactorUP);
     Jet_JerSFdown.push_back(JERScaleFactorDOWN);
@@ -928,7 +940,7 @@ void JetSelector::Fill(const edm::Event& iEvent){
       float JERScaleFactorUP   = 1;
       float JERScaleFactorDOWN = 1;
       //if(!_is_data) GetJER(j, corrAK4PFPuppi, rho, false, JERScaleFactor, JERScaleFactorUP, JERScaleFactorDOWN);
-      if(!_is_data) Getjer(j, corrAK4PFPuppi, rho, false, JERScaleFactor, JERScaleFactorUP, JERScaleFactorDOWN);
+      if(!_is_data) Getjer(j, corrAK4PFPuppi, rho, false, JERScaleFactor, JERScaleFactorUP, JERScaleFactorDOWN, nEvent);
       Jet_puppi_JerSF.push_back(JERScaleFactor);
       Jet_puppi_JerSFup.push_back(JERScaleFactorUP);
       Jet_puppi_JerSFdown.push_back(JERScaleFactorDOWN);
@@ -1473,10 +1485,7 @@ void JetSelector::Clear(){
   }
 }
 
-void JetSelector::Getjer(pat::Jet jet, float JesSF, float rhoJER, bool AK4PFchs, float &JERScaleFactor, float &JERScaleFactorUP, float &JERScaleFactorDOWN){
-  // random seed for stochastic method
-  std::uint32_t seed = 1234;
-  m_random_generator = std::mt19937(seed);
+void JetSelector::Getjer(pat::Jet jet, float JesSF, float rhoJER, bool AK4PFchs, float &JERScaleFactor, float &JERScaleFactorUP, float &JERScaleFactorDOWN, int nEvent){
   double cFactorJER = 1.0; 
   double cFactorJERdown = 1.0;
   double cFactorJERup = 1.0;
@@ -1518,10 +1527,12 @@ void JetSelector::Getjer(pat::Jet jet, float JesSF, float rhoJER, bool AK4PFchs,
   }else{
     // stochastic method
     // https://github.com/cms-sw/cmssw/blob/CMSSW_8_0_25/PhysicsTools/PatUtils/interface/SmearedJetProducerT.h#L239-L247
-    if(cFactorJERup>1){
+    if(cFactorJER>1){
         double sigma = relpterr * std::sqrt(cFactorJER*cFactorJER-1);
+        //sigma = 1.0; // set to 1 for debugging
         std::normal_distribution<> d(0, sigma);
         JERScaleFactor = (std::max(0., 1. + d(m_random_generator)));
+        //std::cout<<" Event " << nEvent << " Get jer stochastic method : setting sigma to 1 "<< " jet pt "<< jet.pt() << " jet eta " << jet.eta() << " jerSF " << JERScaleFactor  <<std::endl;
     }else{
         JERScaleFactor = 1.;
     }
