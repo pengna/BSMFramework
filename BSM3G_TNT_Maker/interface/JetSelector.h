@@ -215,6 +215,7 @@ class JetSelector : public  baseTree{
   //Jet Energy Corrections and Uncertainties
   vector<double> Jet_JesSF, Jet_JesSFup, Jet_JesSFdown, Jet_JerSF, Jet_JerSFup, Jet_JerSFdown; 
   //MC 
+  vector<double> Jet_gen_pt, Jet_gen_eta, Jet_gen_phi, Jet_gen_en;
   vector<double> Jet_partonFlavour, Jet_hadronFlavour;
   ////slimmedJetsPuppi
   //Kinematics

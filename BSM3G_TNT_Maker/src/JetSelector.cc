@@ -844,6 +844,17 @@ void JetSelector::Fill(const edm::Event& iEvent){
     if(!_is_data) {
       Jet_partonFlavour.push_back(j.partonFlavour());
       Jet_hadronFlavour.push_back(j.hadronFlavour());
+      if(j.genJet()){
+        Jet_gen_pt.push_back(j.genJet()->pt());
+        Jet_gen_eta.push_back(j.genJet()->eta());
+        Jet_gen_phi.push_back(j.genJet()->phi());
+        Jet_gen_en.push_back(j.genJet()->energy());
+      }else{
+        Jet_gen_pt.push_back(-999);
+        Jet_gen_eta.push_back(-999);
+        Jet_gen_phi.push_back(-999);
+        Jet_gen_en.push_back(-999);
+      }
     }
     /////
     //   TTH variables
@@ -1219,6 +1230,10 @@ void JetSelector::SetBranches(){
   if(!_is_data) {
     AddBranch(&Jet_partonFlavour        ,"Jet_partonFlavour");
     AddBranch(&Jet_hadronFlavour        ,"Jet_hadronFlavour");
+    AddBranch(&Jet_gen_pt                                      ,"Jet_gen_pt");
+    AddBranch(&Jet_gen_eta                                     ,"Jet_gen_eta");
+    AddBranch(&Jet_gen_phi                                     ,"Jet_gen_phi");
+    AddBranch(&Jet_gen_en                                      ,"Jet_gen_en");
   }
   ////slimmedJetsPuppi
   if(_PuppiVar){
@@ -1432,6 +1447,10 @@ void JetSelector::Clear(){
   if(!_is_data) {
     Jet_partonFlavour.clear();
     Jet_hadronFlavour.clear();
+    Jet_gen_pt.clear();
+    Jet_gen_eta.clear();
+    Jet_gen_phi.clear();
+    Jet_gen_en.clear();
   }
   ////slimmedJetsPuppi
   if(_PuppiVar){
@@ -1527,6 +1546,8 @@ void JetSelector::Getjer(pat::Jet jet, float JesSF, float rhoJER, bool AK4PFchs,
   }else{
     // stochastic method
     // https://github.com/cms-sw/cmssw/blob/CMSSW_8_0_25/PhysicsTools/PatUtils/interface/SmearedJetProducerT.h#L239-L247
+    //std::uint32_t seed = 1234;
+    //m_random_generator.seed(seed);
     if(cFactorJER>1){
         double sigma = relpterr * std::sqrt(cFactorJER*cFactorJER-1);
         //sigma = 1.0; // set to 1 for debugging
