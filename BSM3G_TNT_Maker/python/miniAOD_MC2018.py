@@ -42,13 +42,14 @@ process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
 process.source = cms.Source("PoolSource",
   fileNames = cms.untracked.vstring(
     # ttH run II 2018 sync file
-    '/store/mc/RunIIAutumn18MiniAOD/ttHToNonbb_M125_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/270000/A912BBFA-D1A1-8544-A430-8C98C0767737.root',
+    #'/store/mc/RunIIAutumn18MiniAOD/ttHToNonbb_M125_TuneCP5_13TeV-powheg-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/270000/A912BBFA-D1A1-8544-A430-8C98C0767737.root',
+    '/store/mc/RunIIAutumn18MiniAOD/BstarToTW_M-3400_RH_TuneCP5_13TeV-madgraph-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v2/00000/1A550998-F376-3449-AAD8-A05E5C619A2C.root',
     # HH file
     #'/store/mc/RunIIAutumn18MiniAOD/GluGluToHHTo2B2Tau_node_2_TuneCP5_PSWeights_13TeV-madgraph-pythia8/MINIAODSIM/102X_upgrade2018_realistic_v15-v1/70000/F0801D64-DDFF-004A-B935-120B8090F5B8.root',
   ),
   skipEvents = cms.untracked.uint32(0)
 )
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1000) )
 
 ##### JEC
 from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
@@ -178,10 +179,10 @@ process.TNT = cms.EDAnalyzer("BSM3G_TNT_Maker",
   fillPVinfo            = cms.bool(True),
   fillmuoninfo          = cms.bool(True),
   fillelectronpatinfo   = cms.bool(True),
-  filltauinfo           = cms.bool(True),#FF
+  filltauinfo           = cms.bool(False),#FF
   filljetinfo           = cms.bool(True), #T
   filltthjetinfo        = cms.bool(False), #F
-  fillBoostedJetinfo    = cms.bool(False),
+  fillBoostedJetinfo    = cms.bool(True),
   fillTopSubJetinfo     = cms.bool(False), #F
   fillTauJetnessinfo    = cms.bool(False),
   fillBJetnessinfo      = cms.bool(False),
