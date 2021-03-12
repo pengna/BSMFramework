@@ -136,17 +136,17 @@ class ElectronPatSelector : public  baseTree{
   vector<double> patElectron_charge, patElectron_isGsfCtfScPixChargeConsistent, patElectron_isGsfScPixChargeConsistent;
   //ID
   vector<int>  passVetoId_, passLooseId_, passMediumId_, passTightId_, passMvaIsowp80Id_, passMvanonIsowp80Id_, passMvaIsowp90Id_, passMvanonIsowp90Id_, passMvaIsowpLooseId_, passMvanonIsowpLooseId_;
-  vector<float> patElectron_mvaValue_nonIso_, patElectron_mvaCategory_nonIso_, patElectron_mvaValue_Iso_, patElectron_mvaCategory_Iso_; 
+  vector<float> patElectron_mvaValue_nonIso_, patElectron_mvaCategory_nonIso_, patElectron_mvaValue_Iso_, patElectron_mvaCategory_Iso_,patElectron_Esc; 
   //vector<int>  passVetoOldId_, passLooseOldId_, passMediumOldId_, passTightOldId_, passMvaIsowp80OldId_, passMvanonIsowp80OldId_, passMvaIsowp90OldId_, passMvanonIsowp90OldId_, passMvaIsowpLooseOldId_, passMvanonIsowpLooseOldId_;
   //vector<float> patElectron_OldmvaValue_nonIso_, patElectron_OldmvaCategory_nonIso_, patElectron_OldmvaValue_Iso_, patElectron_OldmvaCategory_Iso_; 
   vector<int > passHEEPId_, patElectron_pdgId, patElectron_isEcalDriven, passMvaHZZwpLooseId_;
-  vector<float> patElectron_mvaValue_HZZ_, patElectron_mvaCategory_HZZ_;
+  vector<float> patElectron_mvaValue_HZZ_, patElectron_mvaCategory_HZZ_,patElectron_dEtaInSeed;
   //Isolation
   vector<double> patElectron_isoChargedHadrons, patElectron_isoNeutralHadrons, patElectron_isoPhotons, patElectron_isoPU, patElectron_relIsoDeltaBeta, patElectron_relIsoRhoEA, patElectron_dr03EcalRecHitSumEt, patElectron_dr03HcalDepth1TowerSumEt, patElectron_isolPtTracks, patElectron_ecalPFClusterIso, patElectron_hcalPFClusterIso;
   //Shape, Track related variables, other prop
   vector<double> patElectron_dEtaIn, patElectron_dPhiIn, 
                  patElectron_full5x5_sigmaIetaIeta, patElectron_full5x5_e2x5Max, patElectron_full5x5_e5x5, patElectron_full5x5_e1x5,
-                 patElectron_hOverE, patElectron_ooEmooP, passConversionVeto_, expectedMissingInnerHits, patElectron_gsfTrack_ndof, patElectron_gsfTrack_normChi2; 
+                 patElectron_hOverE,patElectron_hOverE_new, patElectron_ooEmooP, passConversionVeto_, expectedMissingInnerHits, patElectron_gsfTrack_ndof, patElectron_gsfTrack_normChi2; 
   //IP
   vector<double> patElectron_gsfTrack_dz_pv, patElectron_gsfTrack_dxy_pv, patElectron_d0, patElectron_gsfTrack_dz_bs, patElectron_gsfTrack_dxy_bs, patElectron_dzError, patElectron_dxyError, patElectron_gsfTrack_vtx, patElectron_gsfTrack_vty, patElectron_gsfTrack_vtz;
   vector<double> patElectron_gsfTrack_PCAx_pv, patElectron_gsfTrack_PCAy_pv, patElectron_gsfTrack_PCAz_pv,

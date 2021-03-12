@@ -98,6 +98,8 @@ void ElectronPatSelector::Fill(const edm::Event& iEvent, const edm::EventSetup& 
     patElectron_Et.push_back(el->caloEnergy()*sin(el->p4().theta()));
     double EleSCeta = el->superCluster()->position().eta();
     patElectron_SCeta.push_back(EleSCeta);
+    float Escenergy = el->superCluster()->energy();
+    patElectron_Esc.push_back(Escenergy);
     bool inCrack  = 1.4442<fabs(EleSCeta) && fabs(EleSCeta)<1.5660;
     patElectron_inCrack.push_back(inCrack);
     //Corrections
@@ -215,20 +217,28 @@ void ElectronPatSelector::Fill(const edm::Event& iEvent, const edm::EventSetup& 
     patElectron_hcalPFClusterIso.push_back(el->hcalPFClusterIso());
     //Shape, Track related variables, other prop
     double dEtaIn = el->deltaEtaSuperClusterTrackAtVtx();
+
+
+float dEtaInSeed =el->superCluster().isNonnull() && el->superCluster()->seed().isNonnull() ?  el->deltaEtaSuperClusterTrackAtVtx() - el->superCluster()->eta() + el->superCluster()->seed()->eta() : std::numeric_limits<float>::max();
+
+
     double dPhiIn = el->deltaPhiSuperClusterTrackAtVtx();
     double full5x5_sigmaIetaIeta = el->full5x5_sigmaIetaIeta();
     double hOverE = el->hcalOverEcal();
+    double hOverE_new = el->hadronicOverEm();
     double ooEmooP = -999;
     if(el->ecalEnergy()==0)                   ooEmooP = 1e30;
     else if(!std::isfinite(el->ecalEnergy())) ooEmooP = 1e30;
     else                                      ooEmooP = 1.0/el->ecalEnergy() - el->eSuperClusterOverP()/el->ecalEnergy();
     patElectron_dEtaIn.push_back(dEtaIn);
+    patElectron_dEtaInSeed.push_back(dEtaInSeed);
     patElectron_dPhiIn.push_back(dPhiIn);
     patElectron_full5x5_sigmaIetaIeta.push_back(full5x5_sigmaIetaIeta);
     patElectron_full5x5_e2x5Max.push_back(el->full5x5_e2x5Max());
     patElectron_full5x5_e5x5.push_back(el->full5x5_e5x5());
     patElectron_full5x5_e1x5.push_back(el->full5x5_e1x5());
     patElectron_hOverE.push_back(hOverE);
+    patElectron_hOverE_new.push_back(hOverE_new);
     patElectron_ooEmooP.push_back(ooEmooP);
     passConversionVeto_.push_back(el->passConversionVeto());
     if(el->gsfTrack().isNonnull()){
@@ -594,6 +604,7 @@ void ElectronPatSelector::SetBranches(){
   AddBranch(&patElectron_p            ,"patElectron_p");
   AddBranch(&patElectron_Et           ,"patElectron_Et");
   AddBranch(&patElectron_SCeta        ,"patElectron_SCeta");
+  AddBranch(&patElectron_Esc        ,"patElectron_Esc");
   AddBranch(&patElectron_inCrack      ,"patElectron_inCrack");
   //Corrections
   AddBranch(&patElectron_energySF                , "patElectron_energySF");
@@ -677,12 +688,14 @@ void ElectronPatSelector::SetBranches(){
   AddBranch(&patElectron_hcalPFClusterIso         ,"patElectron_hcalPFClusterIso");
   //Shape, Track related variables, other prop
   AddBranch(&patElectron_dEtaIn                ,"patElectron_dEtaIn");
+  AddBranch(&patElectron_dEtaInSeed                ,"patElectron_dEtaInSeed");
   AddBranch(&patElectron_dPhiIn                ,"patElectron_dPhiIn");
   AddBranch(&patElectron_full5x5_sigmaIetaIeta ,"patElectron_full5x5_sigmaIetaIeta");
   AddBranch(&patElectron_full5x5_e2x5Max       ,"patElectron_full5x5_e2x5Max");
   AddBranch(&patElectron_full5x5_e5x5          ,"patElectron_full5x5_e5x5");
   AddBranch(&patElectron_full5x5_e1x5          ,"patElectron_full5x5_e1x5");
   AddBranch(&patElectron_hOverE                ,"patElectron_hOverE");
+  AddBranch(&patElectron_hOverE_new                ,"patElectron_hOverE_new");
   AddBranch(&patElectron_ooEmooP               ,"patElectron_ooEmooP");
   AddBranch(&passConversionVeto_               ,"patElectron_passConversionVeto"); 
   AddBranch(&expectedMissingInnerHits          ,"patElectron_expectedMissingInnerHits");
@@ -813,6 +826,7 @@ void ElectronPatSelector::Clear(){
   patElectron_eta.clear();
   patElectron_phi.clear();
   patElectron_energy.clear();
+  patElectron_Esc.clear();
   patElectron_px.clear();
   patElectron_py.clear();
   patElectron_pz.clear();
@@ -902,12 +916,14 @@ void ElectronPatSelector::Clear(){
   patElectron_hcalPFClusterIso.clear();
   //Shape, Track related variables, other prop
   patElectron_dEtaIn.clear();
+  patElectron_dEtaInSeed.clear();
   patElectron_dPhiIn.clear();
   patElectron_full5x5_sigmaIetaIeta.clear();
   patElectron_full5x5_e2x5Max.clear();
   patElectron_full5x5_e5x5.clear();
   patElectron_full5x5_e1x5.clear();
   patElectron_hOverE.clear();
+  patElectron_hOverE_new.clear();
   patElectron_ooEmooP.clear();
   passConversionVeto_.clear();
   expectedMissingInnerHits.clear();

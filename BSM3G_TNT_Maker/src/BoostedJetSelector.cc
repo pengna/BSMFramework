@@ -153,13 +153,13 @@ void BoostedJetSelector::Fill(const edm::Event& iEvent){
     BoostedJet_JerSFup.push_back(JERScaleFactorUP);
     BoostedJet_JerSFdown.push_back(JERScaleFactorDOWN);
     //PUPPI Softdrop
-    BoostedJet_puppi_pt.push_back(-99);//j.userFloat("ak8PFJetsPuppiValueMap:pt"));
-    BoostedJet_puppi_mass.push_back(-99);//j.userFloat("ak8PFJetsPuppiValueMap:mass"));
-    BoostedJet_puppi_eta.push_back(-99);//j.userFloat("ak8PFJetsPuppiValueMap:eta"));
-    BoostedJet_puppi_phi.push_back(-99);//j.userFloat("ak8PFJetsPuppiValueMap:phi"));
-    BoostedJet_puppi_tau1.push_back(-99);//j.userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau1"));
-    BoostedJet_puppi_tau2.push_back(-99);//j.userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau2"));
-    BoostedJet_puppi_tau3.push_back(-99);//j.userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau3"));
+    BoostedJet_puppi_pt.push_back(j.userFloat("ak8PFJetsPuppiValueMap:pt"));
+    BoostedJet_puppi_mass.push_back(j.userFloat("ak8PFJetsPuppiValueMap:mass"));
+    BoostedJet_puppi_eta.push_back(j.userFloat("ak8PFJetsPuppiValueMap:eta"));
+    BoostedJet_puppi_phi.push_back(j.userFloat("ak8PFJetsPuppiValueMap:phi"));
+    BoostedJet_puppi_tau1.push_back(j.userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau1"));
+    BoostedJet_puppi_tau2.push_back(j.userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau2"));
+    BoostedJet_puppi_tau3.push_back(j.userFloat("ak8PFJetsPuppiValueMap:NjettinessAK8PuppiTau3"));
     TLorentzVector puppi_softdrop, puppi_softdrop_subjet;
     auto const & sdSubjetsPuppi = j.subjets("SoftDropPuppi");
     for ( auto const & it : sdSubjetsPuppi ) {
@@ -168,6 +168,7 @@ void BoostedJetSelector::Fill(const edm::Event& iEvent){
     }
     float puppiCorr = getPUPPIweight( j.correctedJet("Uncorrected").pt()*corrAK8PFchs*JERScaleFactor ,j.eta() );
     BoostedJet_puppi_softdrop_masscorr.push_back(puppi_softdrop.M()*puppiCorr);
+    BoostedJet_puppi_softdrop_mass.push_back(puppi_softdrop.M());
     //Variables for top-tagging
     double TopMass = -10.;
     double MinMass = -10.;
@@ -256,6 +257,7 @@ void BoostedJetSelector::SetBranches(){
   AddBranch(&BoostedJet_puppi_tau2,"BoostedJet_puppi_tau2");
   AddBranch(&BoostedJet_puppi_tau3,"BoostedJet_puppi_tau3");
   AddBranch(&BoostedJet_puppi_softdrop_masscorr,"BoostedJet_puppi_softdrop_masscorr");
+  AddBranch(&BoostedJet_puppi_softdrop_mass,"BoostedJet_puppi_softdrop_mass");
   //Jet Energy Corrections and Uncertainties
   AddBranch(&BoostedJet_JesSF                ,"BoostedJet_JesSF");
   AddBranch(&BoostedJet_JesSFup              ,"BoostedJet_JesSFup");
@@ -310,6 +312,7 @@ void BoostedJetSelector::Clear(){
   BoostedJet_puppi_tau2.clear();
   BoostedJet_puppi_tau3.clear();
   BoostedJet_puppi_softdrop_masscorr.clear();
+  BoostedJet_puppi_softdrop_mass.clear();
   //Jet Energy Corrections and Uncertainties
   BoostedJet_JesSF.clear();
   BoostedJet_JesSFup.clear();

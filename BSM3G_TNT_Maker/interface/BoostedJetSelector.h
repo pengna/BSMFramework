@@ -125,7 +125,7 @@ class BoostedJetSelector : public  baseTree{
   vector <double> BoostedJet_softdrop_mass, //BoostedJet_trimmed_mass,
                                                                        BoostedJet_pruned_mass;//, BoostedJet_filtered_mass;
 
-  vector <double> BoostedJet_puppi_pt, BoostedJet_puppi_mass, BoostedJet_puppi_eta, BoostedJet_puppi_phi, BoostedJet_puppi_tau1, BoostedJet_puppi_tau2, BoostedJet_puppi_tau3, BoostedJet_puppi_softdrop_masscorr;
+  vector <double> BoostedJet_puppi_pt, BoostedJet_puppi_mass, BoostedJet_puppi_eta, BoostedJet_puppi_phi, BoostedJet_puppi_tau1, BoostedJet_puppi_tau2, BoostedJet_puppi_tau3, BoostedJet_puppi_softdrop_masscorr, BoostedJet_puppi_softdrop_mass;
   vector <double> TopTagging_topMass, TopTagging_minMass, TopTagging_wMass;
   vector <int>    TopTagging_nSubJets;
   //Jet Energy Corrections and Uncertainties
